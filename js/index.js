@@ -1,12 +1,16 @@
-const fetchData = async() => {
+const fetchData = async (searchTerm) => {
     const response = await axios.get('http://www.omdbapi.com/', {
         params: {
             apikey: '25e170d',
-            i: 'tt0848228'
+            s: searchTerm
         }
     });
 
     console.log(response.data)
 }
 
-fetchData();
+const input = document.querySelector('input');
+input.addEventListener('input', (e) => {
+    console.log(e.target.value);
+    fetchData(e.target.value);
+})
