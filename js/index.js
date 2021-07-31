@@ -6,27 +6,23 @@ const fetchData = async (searchTerm) => {
         }
     });
 
-    console.log(response.data)
-}
+    return response.data.Search;
+};
 
 const input = document.querySelector('input');
 
+const onInput = async e => {
+    const movies = await fetchData(e.target.value);
+    
+    for (let movie of movies) {
+        const div = document.createElement('div');
 
-// REUSABLE DEBOUNCE
-const debounce = (func, delay = 1000) => {
-    let timeoutId;
-    return (...args) => {
-        if (timeoutId) {
-            clearTimeout(timeoutId);
-        }
-        timeoutId = setTimeout(() => {
-            func.apply(null, args);
-        }, delay)
-    };
-};
+        div.innerHTML = `
+            <img src="${movie.Poster}"/>
+            <h1>${movie.Title}</h1>
+        `;
 
-
-const onInput = e => {
-    fetchData(e.target.value);
+        document.querySelector('#target').appendChild(div);
+    }
 };
 input.addEventListener('input', debounce(onInput, 600));
