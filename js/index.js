@@ -6,10 +6,31 @@ const fetchData = async (searchTerm) => {
         }
     });
 
+    if (response.data.Error) {
+        return [];
+    }
+    
     return response.data.Search;
 };
 
+
+// GENERATING HTML ELEMENTS OF THE AUTOCOMPLETE WIDGET
+const root = document.querySelector('.autocomplete');
+root.innerHTML = `
+    <label><b>Searth for a Movie</b></label>
+    <input class="input"/>
+    <div class="dropdown">
+        <div class="dropdown-menu>
+            .<div class="dropdown-content results></div>
+        </div>
+    </div>
+`;
+
+// SELECTORS
 const input = document.querySelector('input');
+const dropdown = document.querySelector('.dropdown');
+const resultsWrapper = document.querySelector('.results');
+
 
 const onInput = async e => {
     const movies = await fetchData(e.target.value);
