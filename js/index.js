@@ -32,8 +32,14 @@ const dropdown = document.querySelector('.dropdown');
 const resultsWrapper = document.querySelector('.results');
 
 
-const onInput = async e => {
-    const movies = await fetchData(e.target.value);
+const onInput = async event => {
+    const movies = await fetchData(event.target.value);
+
+    // Si no hay resultados, se cierra el dropdown.
+    if (!movies.length) {
+        dropdown.classList.remove('is-active');
+        return;
+    }
 
     resultsWrapper.innerHTML = '';
     dropdown.classList.add('is-active');
@@ -48,8 +54,21 @@ const onInput = async e => {
             <img src="${imgSrc}"/>
             ${movie.Title}
         `;
+        // Evento para cuando se elige una opción
+        option.addEventListener('click', () => {
+            dropdown.classList.remove('is-active');
+            input.value = movie.Title;
+        });
 
         resultsWrapper.appendChild(option);
     }
 };
 input.addEventListener('input', debounce(onInput, 600));
+
+
+// CLOSING THE AUTOCOMPLETE with a global click event
+document.addEventListener('click', event => {
+    if (!root.contains(event.target)) {
+        dropdown.classList.remove('is-active');
+    }
+});
