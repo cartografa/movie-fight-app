@@ -6,6 +6,7 @@ const createAutoComplete = ({
     inputValue,
     fetchData 
 }) => {
+    // create the dropdown with bulma css:
     root.innerHTML = `
         <label><b>Search</b></label>
         <input class="input" />
@@ -21,10 +22,11 @@ const createAutoComplete = ({
     const dropdown = root.querySelector('.dropdown');
     const resultsWrapper = root.querySelector('.results');
 
+    // Rendering the data:
     const onInput = async event => {
         const items = await fetchData(event.target.value);
 
-        // Si no hay resultados, se cierra el dropdown.
+        // Closes the dropdown if there's no data returning:
         if (!items.length) {
             dropdown.classList.remove('is-active');
             return;
